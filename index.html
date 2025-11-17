@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Reestruturação Professional Services - Report Executivo de Custos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      /* Paleta inspirada em Blip: fundo escuro, azul/ciano vibrante, cinzas suaves */
+      --bg-page: #020617;
+      --bg-card: #020617;
+      --bg-soft: #0b1120;
+      --accent: #00c2ff;
+      --accent-soft: rgba(0, 194, 255, 0.08);
+      --text-main: #e5e7eb;
+      --text-soft: #9ca3af;
+      --border-subtle: #1f2937;
+      --danger: #f97373;
+      --ok: #4ade80;
+      --warn: #facc15;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #0f172a 0, #020617 45%, #000 100%);
+      color: var(--text-main);
+      padding: 32px 16px;
+    }
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: radial-gradient(circle at top left, rgba(0, 194, 255, 0.06), transparent 55%);
+    }
+
+    header {
+      margin-bottom: 24px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #020617;
+      font-weight: 700;
+      font-size: 0.9rem;
+      box-shadow: 0 10px 25px rgba(0, 194, 255, 0.7);
+    }
+
+    .brand-text-main {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .brand-text-sub {
+      font-size: 0.8rem;
+      color: var(--text-soft);
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      font-weight: 650;
+      letter-spacing: 0.02em;
+      margin-bottom: 8px;
+    }
+
+    header h1 strong {
+      color: var(--accent);
+    }
+
+    header p {
+      font-size: 0.95rem;
+      color: var(--text-soft);
+      max-width: 720px;
+    }
+
+    header p a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px dotted var(--accent);
+    }
+
+    header p a:hover {
+      opacity: 0.85;
+    }
+
+    header .meta {
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.8rem;
+    }
+
+    .tag {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      color: var(--text-soft);
+    }
+
+    .tag-accent {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin: 24px 0 20px;
+    }
+
+    .kpi-card {
+      background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(15,23,42,0.7));
+      border-radius: 18px;
+      padding: 14px 16px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      box-shadow: 0 18px 40px rgba(15,23,42,0.85);
+    }
+
+    .kpi-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-soft);
+      margin-bottom: 6px;
+    }
+
+    .kpi-value {
+      font-size: 1.1rem;
+      font-weight: 650;
+      margin-bottom: 4px;
+      color: #f9fafb;
+    }
+
+    .kpi-caption {
+      font-size: 0.8rem;
+      color: var(--text-soft);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(148,163,184,0.35);
+      color: var(--text-soft);
+      margin-top: 4px;
+    }
+
+    .pill span {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .cards {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 8px;
+    }
+
+    .card {
+      background: var(--bg-soft);
+      border-radius: 18px;
+      border: 1px solid var(--border-subtle);
+      padding: 18px 18px 14px;
+      box-shadow: 0 16px 36px rgba(0,0,0,0.8);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge {
+      font-size: 0.72rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: var(--text-soft);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .badge-pill {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .delta {
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-align: right;
+    }
+
+    .delta-pos {
+      color: var(--ok);
+    }
+
+    .delta-neutral {
+      color: var(--text-soft);
+    }
+
+    .delta-approx {
+      font-size: 0.75rem;
+      color: var(--text-soft);
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.3fr);
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .top-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    .card-section-title {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-soft);
+      margin-bottom: 4px;
+    }
+
+    .metrics-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+      margin-bottom: 6px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: rgba(15,23,42,0.75);
+    }
+
+    .metrics-table tr:nth-child(even) {
+      background: rgba(15,23,42,0.95);
+    }
+
+    .metrics-table td {
+      padding: 4px 6px;
+      border-bottom: 1px solid rgba(31,41,55,0.9);
+    }
+
+    .metrics-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .metrics-label {
+      color: var(--text-soft);
+      width: 55%;
+      white-space: nowrap;
+    }
+
+    .metrics-value {
+      text-align: right;
+    }
+
+    ul {
+      list-style: none;
+      margin-top: 4px;
+    }
+
+    li {
+      font-size: 0.84rem;
+      color: var(--text-main);
+      margin-bottom: 4px;
+      padding-left: 14px;
+      position: relative;
+    }
+
+    li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent);
+    }
+
+    .kpi-bullets li {
+      font-size: 0.8rem;
+      color: var(--text-soft);
+    }
+
+    footer {
+      margin-top: 20px;
+      font-size: 0.75rem;
+      color: var(--text-soft);
+      border-top: 1px solid rgba(31,41,55,0.9);
+      padding-top: 10px;
+    }
+
+    footer span {
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="top-bar">
+        <div class="brand">
+          <div class="brand-mark">ps</div>
+          <div>
+            <div class="brand-text-main">Professional Services</div>
+            <div class="brand-text-sub">Reestruturação &mdash; visão executiva para VP</div>
+          </div>
+        </div>
+      </div>
+
+      <h1>
+        Reestruturação <strong>Professional Services</strong> &mdash; Report Executivo de Custos
+      </h1>
+      <p>
+        Visão consolidada, por gerência, dos principais movimentos de estrutura (contratações, demissões, promoções e realocações)
+        e do impacto estimado em custo mensal recorrente de Professional Services. Os valores apresentados são estimativas executivas
+        derivadas do planejamento de reestruturação (slides 6, 8, 10, 12, 14, 16 e 18) e do documento de referência.
+        O detalhamento completo pode ser consultado
+        <a href="LINK_DO_DOCUMENTO_PLANEJAMENTO" target="_blank" rel="noopener noreferrer">neste link</a>.
+      </p>
+      <div class="meta">
+        <span class="tag tag-accent">Planejamento 2025/2026</span>
+        <span class="tag">Escopo: apenas Professional Services</span>
+        <span class="tag">Valores em R$/mês (aprox.)</span>
+      </div>
+    </header>
+
+    <section class="summary-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Incremento total estimado de custo mensal</div>
+        <div class="kpi-value">≈ R$ 158.658 / mês (≈ 2,8% da folha de R$ 5,6 MM/mês)</div>
+        <div class="kpi-caption">
+          Foco em reforço de liderança, qualidade, eficiência e educação para escalar PS.
+        </div>
+        <div class="pill">
+          <span></span>
+          <div>Maior concentração em Engenharia, Gestão de Valor, STI e PS Ops</div>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-label">Pilares principais da reestruturação</div>
+        <ul class="kpi-bullets">
+          <li>Engenharia mais sênior e orientada a capítulos/arquitetura.</li>
+          <li>STI com foco em Education e escalabilidade de adoção.</li>
+          <li>Gestão de Valor estruturando QA, eficiência de fluxo e automação de testes com IA.</li>
+          <li>PS Ops fortalecendo governança, P&amp;L e capacidade analítica.</li>
+          <li>Service Design &amp; Consulting estruturando pré-vendas global e ofertas consultivas.</li>
+        </ul>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-label">Mensagem-chave</div>
+        <div class="kpi-caption">
+          A reestruturação aumenta o custo fixo de PS, mas direcionando investimento para alavancas
+          de <strong>receita</strong> (projetos complexos, consulting, education) e <strong>eficiência</strong>
+          (QA, automação, governança financeira).
+        </div>
+      </div>
+    </section>
+
+    <section class="cards">
+
+      <!-- Engenharia (maior incremento) -->
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title">
+            Engenharia (Chapters / Arquitetura)
+            <span class="badge badge-pill">Maior incremento de custo</span>
+          </div>
+          <div class="delta delta-pos">
+            + R$ 76.000 / mês
+            <div class="delta-approx">Investimento concentrado em seniors, tech leads e arquitetura</div>
+          </div>
+        </div>
+        <div class="card-grid">
+          <div>
+            <div class="card-section-title">Números-chave</div>
+            <table class="metrics-table">
+              <tr>
+                <td class="metrics-label">Delta custo mensal</td>
+                <td class="metrics-value">≈ + R$ 76.000</td>
+              </tr>
+              <tr>
+                <td class="metrics-label">Perfil</td>
+                <td class="metrics-value">Solutions Architect, Chapter Leads, Seniors</td>
+              </tr>
+              <tr>
+                <td class="metrics-label">Billability</td>
+                <td class="metrics-value">Billable / parcialmente billable</td>
+              </tr>
+              <tr>
+                <td class="metrics-label">Prioridade</td>
+                <td class="metrics-value">Alta (virada em Nov/Dez)</td>
+              </tr>
+            </table>
+          </div>
+          <div>
+            <div class="card-section-title">Leitura executiva &amp; KPIs sugeridos</div>
+            <ul>
+              <li>Principal bloco de aumento de custo, com retorno esperado em projetos complexos e qualidade técnica.</li>
+              <li>Alinha PS a um modelo de chapters/arquitetura, reduzindo retrabalho e incidentes.</li>
+              <li>KPIs recomendados:
+                <ul class="kpi-bullets">
+                  <li>Margem de projetos complexos (antes vs depois).</li>
+                  <li>Taxa de incidentes/críticos e MTTR em clientes com atuação de capítulos.</li>
+                  <li>Win rate em deals que exigem arquitetura avançada.</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- Gestão de Valor (2º maior incremento) -->
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title">
+            Gestão de Valor (QA, Eficiência de Fluxo &amp; Automação)
+            <span class="badge">Qualidade &amp; IA em testes</span>
+          </div>
+          <div class="delta delta-pos">
+            + R$ 29.239 / mês
+            <div class="delta-approx">Wave 1 (~5,2k) + Wave 2 (~8k) + Wave 3 (16k)</div>
+          </div>
+        </div>
+        <div class="card-grid">
+          <div>
+            <div class="card-section-title">Números-chave</div>
+            <table class="metrics-table">
+              <tr>
+                <td class="metrics-label">Delta custo mensal (steady state)</td>
+                <td class="metrics-value">≈ + R$ 29.239</td>
+              </tr>
+              <tr>
+                <td class="metrics-label">Movimentos</td>
+                <td class="metrics-value">Promoção QA Coord, novo QA Coord, HC IA, Eng. Automação</td>
+              </tr>
+              <tr>
+                <td class="metrics-label">Perfil</td>
+                <td class="metrics-value">Mix de coordenadores QA billable + funções internas de IA/automação</td>
+              </tr>
+              <tr>
+                <td class="metrics-label">Fases</td>
+                <td class="metrics-value">3 waves (Nov/25, Jan–Fev/26, Abr/26)</td>
+              </tr>
+            </table>
+          </div>
+          <div>
+            <div class="card-section-title">Leitura executiva &amp; KPIs sugeridos</div>
+            <ul>
+              <li>Investimento direcionado para reduzir custo da não-qualidade e aumentar produtividade de delivery.</li>
+              <li>IA &amp; automação de testes devem refletir em menos incidentes e ciclos de entrega mais curtos.</li>
+              <li>KPIs recomendados:
+                <ul class="kpi-bullets">
+                  <li>Defeitos em produção e retrabalho por projeto.</li>
+                  <li>Lead time de releases / GMUDs (antes vs depois da automação).</li>
+                  <li>Horas de engenharia “liberadas” por automação de testes.</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- STI (3º maior incremento) -->
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title">
+            STI (Lab, Education, Discovery &amp; Efficiency)
+            <span class="badge">Education &amp; escalabilidade</span>
+          </div>
+          <div class="delta delta-pos">
+            + R$ 24.058 / mês
+            <div class="delta-approx">Folha ~R$ 197.696 → ~R$ 221.754 (+11%)</div>
+          </div>
+        </div>
+        <div class="card-grid">
+          <div>
+            <div class="card-section-title">Números-chave</div>
+            <table class="metrics-table">
+              <tr>
+                <td class="metrics-label">FTE (antes → depois)</td>
+                <td class="metrics-value">~14 → ~16 (+2 Educators)</td>
+              </tr>
+              <tr>
+                <td class="metrics-label">Delta custo mensal</td>
+                <td class="metrics-value">+ R$ 24.058</td>
+              </tr>
+              <tr>
+                <td class="metrics-label">Mudança estrutural</td>
+                <td class="metrics-value">+2 Educators / -1 PM produto (realocado)</td>
+              </tr>
+              <tr>
+                <td class="metrics-label">Perfil de receita</td>
+                <td class="metrics-value">Misto billable / partially billable</td>
+              </tr>
+            </table>
+          </div>
+          <div>
+            <div class="card-section-title">Leitura executiva &amp; KPIs sugeridos</div>
+            <ul>
+              <li>Investimento em Educators aumenta capacidade de escalar treinamento, adoção e outcomes.</li>
+              <li>Não é só custo: esse bloco deve puxar receita de serviços e da própria plataforma.</li>
+              <li>KPIs recomendados:
+                <ul class="kpi-bullets">
+                  <li>Receita de Education &amp; projetos ligados a STI.</li>
+                  <li>Adoção de funcionalidades pós-treinamento e tempo até primeiro valor (TTFV).</li>
+                  <li>CSAT de treinamentos e impacto em churn/expansion de clientes treinados.</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- PS Ops (4º) -->
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title">
+            PS Ops (Operações de Professional Services)
+            <span class="badge">Governança &amp; P&amp;L</span>
+          </div>
+          <div class="delta delta-pos">
+            + R$ 12.000 / mês
+            <div class="delta-approx">Estagiário → FP&amp;A Analyst | Headcount alvo: 7</div>
+          </div>
+        </div>
+        <div class="card-grid">
+          <div>
+            <div class="card-section-title">Números-chave</div>
+            <table class="metrics-table">
+              <tr>
+                <td class="metrics-label">Delta custo mensal</td>
+                <td class="metrics-value">+ R$ 12.000</td>
+              </tr>
+              <tr>
+                <td class="metrics-label">Movimento principal</td>
+                <td class="metrics-value">Contratação FP&amp;A Analyst / demissão de estagiário</td>
+              </tr>
+              <tr>
+                <td class="metrics-label">Perfil</td>
+                <td class="metrics-value">100% não billable (Ops, Program, Process, Data, FP&amp;A)</td>
+              </tr>
+              <tr>
+                <td class="metrics-label">Função</td>
+                <td class="metrics-value">P&amp;L, capacidade, pricing guardrails, dados e processos</td>
+              </tr>
+            </table>
+          </div>
+          <div>
+            <div class="card-section-title">Leitura executiva &amp; KPIs sugeridos</div>
+            <ul>
+              <li>Troca custo baixo (estagiário) por alta alavanca (FP&amp;A dedicado em PS).</li>
+              <li>PS Ops vira o “motor” de governança de margem e capacidade da operação.</li>
+              <li>KPIs recomendados:
+                <ul class="kpi-bullets">
+                  <li>Margem de serviços vs orçamento (GM%).</li>
+                  <li>Acurácia de forecast de receita/HC de PS.</li>
+                  <li>% de deals dentro dos guardrails de margem, subsídio e desconto.</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- Delivery (5º) -->
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title">
+            Delivery (Service Delivery)
+            <span class="badge">Liderança de Delivery</span>
+          </div>
+          <div class="delta delta-pos">
+            + R$ 11.361 / mês
+            <div class="delta-approx">Contratações &amp; promoções de DMs e Head Service</div>
+          </div>
+        </div>
+        <div class="card-grid">
+          <div>
+            <div class="card-section-title">Números-chave</div>
+            <table class="metrics-table">
+              <tr>
+                <td class="metrics-label">Movimentos principais</td>
+                <td class="metrics-value">1 demissão, 1 contratação, 2 promoções, 1 mérito, 1 promoção a Head</td>
+              </tr>
+              <tr>
+                <td class="metrics-label">Delta custo mensal</td>
+                <td class="metrics-value">+ R$ 11.361</td>
+              </tr>
+              <tr>
+                <td class="metrics-label">Perfil</td>
+                <td class="metrics-value">Mix de DMs billable + Head não billable</td>
+              </tr>
+              <tr>
+                <td class="metrics-label">Foco</td>
+                <td class="metrics-value">Governança de delivery e performance de projetos</td>
+              </tr>
+            </table>
+          </div>
+          <div>
+            <div class="card-section-title">Leitura executiva &amp; KPIs sugeridos</div>
+            <ul>
+              <li>Movimento é menos sobre “crescer headcount” e mais sobre mudar o mix de liderança.</li>
+              <li>Head Service não billable aumenta overhead, mas permite padronizar execução e previsibilidade.</li>
+              <li>Importante acompanhar se a camada de liderança está “pagando o investimento” via:
+                <ul class="kpi-bullets">
+                  <li>Margem de contribuição de projetos de PS.</li>
+                  <li>Forecast de revenue/hours vs realizado (acurácia).</li>
+                  <li>NPS/CSAT de projetos e taxa de rework.</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- Service Design & Consulting (6º) -->
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title">
+            Service Design &amp; Consulting
+            <span class="badge">Pré-vendas global &amp; ofertas consultivas</span>
+          </div>
+          <div class="delta delta-pos">
+            + R$ 6.000 / mês
+            <div class="delta-approx">Custo total ~R$ 80k → ~R$ 86k</div>
+          </div>
+        </div>
+        <div class="card-grid">
+          <div>
+            <div class="card-section-title">Números-chave</div>
+            <table class="metrics-table">
+              <tr>
+                <td class="metrics-label">Delta custo mensal</td>
+                <td class="metrics-value">+ R$ 6.000</td>
+              </tr>
+              <tr>
+                <td class="metrics-label">Movimentos</td>
+                <td class="metrics-value">Promoção Pre-Sales BR, Service Strategist, reposições &amp; migração de Lead</td>
+              </tr>
+              <tr>
+                <td class="metrics-label">Escopo</td>
+                <td class="metrics-value">Pré-vendas BR/LATAM/EMEA + Consulting/outcome-based</td>
+              </tr>
+              <tr>
+                <td class="metrics-label">Perfil</td>
+                <td class="metrics-value">Majoritariamente não billable + especialistas federados</td>
+              </tr>
+            </table>
+          </div>
+          <div>
+            <div class="card-section-title">Leitura executiva &amp; KPIs sugeridos</div>
+            <ul>
+              <li>Aumento de custo relativamente pequeno com potencial grande em win rate e margem.</li>
+              <li>Service Strategist abre espaço para ofertas consultivas e modelos de valor/outcome.</li>
+              <li>KPIs recomendados:
+                <ul class="kpi-bullets">
+                  <li>Win rate de deals com envolvimento de Service Design.</li>
+                  <li>Margem dos projetos desenhados por SD (vs baseline).</li>
+                  <li>Receita de serviços consultivos e NRR de contas atendidas.</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- Dados / D4S (sem incremento de custo na wave 1) -->
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title">
+            Dados (D4S / Data for Services)
+            <span class="badge">Estrutura transitória até 2026</span>
+          </div>
+          <div class="delta delta-neutral">
+            + R$ 0 / mês (Wave 1)
+            <div class="delta-approx">Sem aumento de quadro na primeira onda</div>
+          </div>
+        </div>
+        <div class="card-grid">
+          <div>
+            <div class="card-section-title">Números-chave</div>
+            <table class="metrics-table">
+              <tr>
+                <td class="metrics-label">Delta custo mensal (Wave 1)</td>
+                <td class="metrics-value">R$ 0</td>
+              </tr>
+              <tr>
+                <td class="metrics-label">Movimentos</td>
+                <td class="metrics-value">Méritos e consolidação de estrutura já em vagas abertas</td>
+              </tr>
+              <tr>
+                <td class="metrics-label">Perfil de papéis</td>
+                <td class="metrics-value">Managers/Coords (não billable), AEs (parcial), DA/DStra (billable)</td>
+              </tr>
+              <tr>
+                <td class="metrics-label">Visão 2026</td>
+                <td class="metrics-value">Mais Data Scientist &amp; maior senioridade</td>
+              </tr>
+            </table>
+          </div>
+          <div>
+            <div class="card-section-title">Leitura executiva &amp; KPIs sugeridos</div>
+            <ul>
+              <li>Primeira fase não sobe custo, mas organiza a casa para crescer em dados a partir de 2026.</li>
+              <li>É crítico que futuros aumentos em DS/senioridade sejam ancorados em valor capturado.</li>
+              <li>KPIs recomendados:
+                <ul class="kpi-bullets">
+                  <li>Receita de serviços/soluções de dados (D4S).</li>
+                  <li>Uso de produtos de dados por squads e impacto em eficiência.</li>
+                  <li>Qualidade e confiança dos dados (incidentes de dados, reprocessamentos).</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+    </section>
+
+    <footer>
+      <div>
+        <strong>Notas:</strong> valores aproximados, considerando as premissas do planejamento de reestruturação e
+        podendo variar na consolidação final da folha (salários, encargos, benefícios e datas de virada).
+      </div>
+      <div>
+        Este relatório é um resumo executivo. A base detalhada por colaborador, especialidade e wave está
+        consolidada no documento de planejamento e na planilha mestre de <span>Professional Services</span>.
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
