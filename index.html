@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     :root {
-      /* Paleta inspirada em Blip: fundo escuro, azul/ciano vibrante, cinzas suaves */
       --bg-page: #020617;
       --bg-card: #020617;
       --bg-soft: #0b1120;
@@ -199,17 +198,29 @@
       background: var(--bg-soft);
       border-radius: 18px;
       border: 1px solid var(--border-subtle);
-      padding: 18px 18px 14px;
+      padding: 16px 18px 14px;
       box-shadow: 0 16px 36px rgba(0,0,0,0.8);
     }
 
     .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 8px;
-      margin-bottom: 10px;
+      border: none;
+      background: transparent;
       cursor: pointer;
+      padding: 0;
+      width: 100%;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+      color: inherit;
+      text-align: left;
+    }
+
+    .card-header:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+      border-radius: 10px;
     }
 
     .card-title {
@@ -218,17 +229,6 @@
       display: flex;
       align-items: center;
       gap: 8px;
-    }
-
-    .chevron {
-      font-size: 0.9rem;
-      opacity: 0.7;
-      transition: transform 0.18s ease, opacity 0.18s ease;
-    }
-
-    .card.collapsed .chevron {
-      transform: rotate(-90deg);
-      opacity: 0.5;
     }
 
     .badge {
@@ -265,25 +265,36 @@
       color: var(--text-soft);
     }
 
+    .card-arrow {
+      font-size: 0.9rem;
+      color: var(--text-soft);
+      margin-left: 6px;
+      margin-top: 4px;
+      transition: transform 0.2s ease;
+    }
+
+    .card.collapsed .card-arrow {
+      transform: rotate(-90deg);
+    }
+
+    .card-body {
+      margin-top: 8px;
+    }
+
+    .card-body.collapsed {
+      display: none;
+    }
+
     .card-grid {
       display: grid;
       grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.3fr);
       gap: 12px;
-      margin-top: 8px;
-    }
-
-    .card.collapsed .card-grid {
-      display: none;
+      margin-top: 4px;
     }
 
     @media (max-width: 768px) {
       .card-grid {
         grid-template-columns: 1fr;
-      }
-
-      .top-bar {
-        flex-direction: column;
-        align-items: flex-start;
       }
     }
 
@@ -399,267 +410,740 @@
     </header>
 
     <section class="summary-grid">
-      <!-- Impacto total -->
+      <!-- Incremento total -->
       <div class="kpi-card">
-        <div class="kpi-label">Impacto total de custo mensal (reestruturação + pleitos)</div>
-        <div class="kpi-value">≈ R$ 220.301 / mês (≈ 3,9% da folha de R$ 5,6 MM/mês)</div>
+        <div class="kpi-label">Incremento total estimado de custo mensal (reestruturação + pleitos)</div>
+        <div class="kpi-value">≈ R$ 252.663 / mês (≈ 4,5% da folha de R$ 5,6 MM/mês)</div>
         <div class="kpi-caption">
-          Soma do plano de reestruturação de PS (≈ R$ 158,7k) com os pleitos de reconhecimento (≈ R$ 80,7k),
-          descontando a parte de Engenharia que já estava embutida no delta de chapters/arquitetura (~R$ 19,1k).
-        </div>
-      </div>
-
-      <!-- Reestruturação -->
-      <div class="kpi-card">
-        <div class="kpi-label">Delta de custo mensal &mdash; Reestruturação de PS</div>
-        <div class="kpi-value">≈ R$ 158.658 / mês (≈ 2,8% da folha)</div>
-        <div class="kpi-caption">
-          Reforço de leadership, chapters, QA/eficiência, Education, dados e PS Ops, incluindo movimentos estruturais
-          em Engenharia que já contemplam parte dos pleitos do time de Anderson.
+          Soma do impacto da reestruturação de PS (≈ R$ 158,7k/mês) com os pleitos de reconhecimento (≈ R$ 94k/mês adicionais,
+          desconsiderando o que já está embutido em Engenharia).
         </div>
         <div class="pill">
           <span></span>
-          <div>Maior peso em Engenharia, Gestão de Valor, STI e PS Ops</div>
+          <div>Maiores impactos em Engenharia, Design Conversacional e Gestão de Valor (QA &amp; Agile)</div>
         </div>
       </div>
 
       <!-- Pleitos -->
       <div class="kpi-card">
         <div class="kpi-label">Pleitos de reconhecimento (promoções / progressões)</div>
-        <div class="kpi-value">54 pleitos · ≈ R$ 80.749 / mês (≈ 1,4% da folha)</div>
+        <div class="kpi-value">54 pleitos · + R$ 80.749 / mês (≈ 1,4% da folha)</div>
         <div class="kpi-caption">
-          Aumento salarial mensal agregado do ciclo de reconhecimento. Custo total mensal da folha dos profissionais
-          reconhecidos ≈ R$ 123.142, com farol orçamentário de 3%.
+          Custo total mensal dos profissionais reconhecidos ≈ R$ 123.142 (≈ 2,2% da folha), com farol agregado de 3%.
+          Aproximadamente R$ 29k desse valor já estão considerados no incremento de Engenharia; os ~R$ 94k restantes
+          adicionam custo incremental além da reestruturação de headcount.
         </div>
       </div>
 
-      <!-- Mensagem / pilares -->
+      <div class="kpi-card">
+        <div class="kpi-label">Pilares principais da reestruturação</div>
+        <ul class="kpi-bullets">
+          <li>Engenharia mais sênior e orientada a capítulos/arquitetura.</li>
+          <li>STI com foco em Education e escalabilidade de adoção.</li>
+          <li>Gestão de Valor estruturando QA, eficiência de fluxo e automação de testes com IA.</li>
+          <li>PS Ops fortalecendo governança, P&amp;L e capacidade analítica.</li>
+          <li>Service Design &amp; Consulting estruturando pré-vendas global e ofertas consultivas.</li>
+        </ul>
+      </div>
+
       <div class="kpi-card">
         <div class="kpi-label">Mensagem-chave</div>
         <div class="kpi-caption">
-          O aumento de custo fixa PS, mas direciona investimento para alavancas de <strong>receita</strong>
-          (projetos complexos, consulting, education, dados) e <strong>eficiência</strong>
-          (QA, automação de testes, governança financeira, capacidade), preservando talentos críticos via reconhecimento.
+          A reestruturação aumenta o custo fixo de PS, mas direciona investimento para alavancas de <strong>receita</strong>
+          (projetos complexos, consulting, education) e <strong>eficiência</strong> (QA, automação, governança financeira),
+          enquanto o ciclo de reconhecimento preserva e engaja talentos críticos nessas frentes.
         </div>
-        <ul class="kpi-bullets" style="margin-top:8px;">
-          <li>Engenharia mais sênior e orientada a chapters/arquitetura.</li>
-          <li>STI puxando Education e escalabilidade de adoção.</li>
-          <li>Gestão de Valor estruturando QA, eficiência de fluxo e IA em testes.</li>
-          <li>PS Ops como motor de P&amp;L, capacidade e governança de margem.</li>
-          <li>Service Design &amp; Consulting ancorando pré-vendas global e ofertas consultivas.</li>
-        </ul>
       </div>
     </section>
 
     <section class="cards">
 
-      <!-- Engenharia -->
+      <!-- 1. Engenharia -->
       <article class="card">
-        <div class="card-header">
+        <button class="card-header" type="button">
           <div class="card-title">
-            <span class="chevron">▾</span>
             Engenharia (Chapters / Arquitetura)
             <span class="badge badge-pill">Maior incremento de custo</span>
           </div>
           <div class="delta delta-pos">
             + R$ 76.000 / mês
-            <div class="delta-approx">≈ R$ 47k aumento de quadro + ≈ R$ 19k pleitos</div>
+            <div class="delta-approx">≈ R$ 47k aumento de quadro + ≈ R$ 29k movimentações</div>
           </div>
-        </div>
-        <div class="card-grid">
-          <div>
-            <div class="card-section-title">Visão financeira (reestruturação + pleitos)</div>
-            <table class="metrics-table">
-              <tr>
-                <td class="metrics-label">Incremento total estimado (HC + pleitos)</td>
-                <td class="metrics-value">≈ + R$ 76.000</td>
-              </tr>
-              <tr>
-                <td class="metrics-label">Aumento de quadro (HC)</td>
-                <td class="metrics-value">≈ + R$ 47.000</td>
-              </tr>
-              <tr>
-                <td class="metrics-label">Δ pleitos (aprox.)</td>
-                <td class="metrics-value">≈ + R$ 19.106</td>
-              </tr>
-              <tr>
-                <td class="metrics-label">Perfil</td>
-                <td class="metrics-value">Solutions Architect, Chapter Leads, Seniors</td>
-              </tr>
-              <tr>
-                <td class="metrics-label">Billability</td>
-                <td class="metrics-value">Billable / parcialmente billable</td>
-              </tr>
-              <tr>
-                <td class="metrics-label">Prioridade</td>
-                <td class="metrics-value">Alta (virada em Nov/Dez)</td>
-              </tr>
-            </table>
+          <div class="card-arrow">▾</div>
+        </button>
+        <div class="card-body">
+          <div class="card-grid">
+            <div>
+              <div class="card-section-title">Números-chave (total reestruturação + pleitos)</div>
+              <table class="metrics-table">
+                <tr>
+                  <td class="metrics-label">Delta total de custo mensal</td>
+                  <td class="metrics-value">≈ R$ 76.000</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Aumento de quadro (HC)</td>
+                  <td class="metrics-value">≈ R$ 47.000</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Movimentações / reconhecimento</td>
+                  <td class="metrics-value">≈ R$ 29.000 (incluídos no total)</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Perfil</td>
+                  <td class="metrics-value">Solutions Architect, Chapter Leads, Seniors</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Billability</td>
+                  <td class="metrics-value">Billable / parcialmente billable</td>
+                </tr>
+              </table>
 
-            <div class="card-section-title">Pleitos de reconhecimento (já embutidos no delta)</div>
-            <table class="metrics-table">
-              <tr>
-                <td class="metrics-label">Líder do pacote</td>
-                <td class="metrics-value">Anderson Fonseca e Silva</td>
-              </tr>
-              <tr>
-                <td class="metrics-label">Qtd. pleitos</td>
-                <td class="metrics-value">9</td>
-              </tr>
-              <tr>
-                <td class="metrics-label">Custo mensal da folha reconhecida</td>
-                <td class="metrics-value">R$ 29.137</td>
-              </tr>
-              <tr>
-                <td class="metrics-label">Δ pleitos estimado</td>
-                <td class="metrics-value">≈ + R$ 19.106</td>
-              </tr>
-              <tr>
-                <td class="metrics-label">Farol orçamento</td>
-                <td class="metrics-value">2,42%</td>
-              </tr>
-            </table>
-          </div>
-          <div>
-            <div class="card-section-title">Leitura executiva &amp; KPIs sugeridos</div>
-            <ul>
-              <li>Principal bloco de aumento de custo, combinando expansão de quadro e reconhecimento em um time crítico para projetos complexos.</li>
-              <li>Modelo de chapters/arquitetura reduz retrabalho e incidentes, e aumenta capacidade de suportar pré-vendas técnicas.</li>
-              <li>Importante separar, na governança, o que é investimento em novos HC (~R$ 47k) do que é pleito (~R$ 19k) já embutido no plano.</li>
-              <li>KPIs recomendados:
-                <ul class="kpi-bullets">
-                  <li>Margem de projetos complexos (antes vs depois).</li>
-                  <li>Taxa de incidentes/críticos e MTTR em clientes com atuação de chapters.</li>
-                  <li>Win rate em deals que exigem arquitetura avançada.</li>
-                </ul>
-              </li>
-            </ul>
+              <div class="card-section-title">Pleitos de reconhecimento</div>
+              <table class="metrics-table">
+                <tr>
+                  <td class="metrics-label">Líder do pacote</td>
+                  <td class="metrics-value">Anderson Fonseca e Silva</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Qtd. pleitos</td>
+                  <td class="metrics-value">9</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Aumento salarial do pacote</td>
+                  <td class="metrics-value">7%</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Custo mensal dos pleitos</td>
+                  <td class="metrics-value">R$ 29.137</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Farol orçamento</td>
+                  <td class="metrics-value">2,42%</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <div class="card-section-title">Leitura executiva &amp; KPIs sugeridos</div>
+              <ul>
+                <li>Principal bloco de custo, combinando reforço de quadro (≈ R$ 47k) e reconhecimento/movimentações (≈ R$ 29k) em Engenharia.</li>
+                <li>Chapters/arquitetura suportam projetos complexos, reduzem retrabalho e incidentes e elevam a capacidade de pré-venda técnica.</li>
+                <li>KPIs recomendados:
+                  <ul class="kpi-bullets">
+                    <li>Margem de projetos complexos (antes vs depois).</li>
+                    <li>Taxa de incidentes/críticos e MTTR em clientes com atuação de capítulos.</li>
+                    <li>Win rate em deals que exigem arquitetura avançada.</li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </article>
 
-      <!-- Gestão de Valor (QA, Eficiência & Automação) -->
+      <!-- 2. Design Conversacional -->
       <article class="card">
-        <div class="card-header">
+        <button class="card-header" type="button">
           <div class="card-title">
-            <span class="chevron">▾</span>
+            Design Conversacional
+            <span class="badge">Experiência de conversa &amp; UX de bots</span>
+          </div>
+          <div class="delta delta-pos">
+            + R$ 37.560 / mês
+            <div class="delta-approx">Impacto 100% via pleitos de reconhecimento</div>
+          </div>
+          <div class="card-arrow">▾</div>
+        </button>
+        <div class="card-body">
+          <div class="card-grid">
+            <div>
+              <div class="card-section-title">Custo total por especialidade</div>
+              <table class="metrics-table">
+                <tr>
+                  <td class="metrics-label">Delta total de custo mensal</td>
+                  <td class="metrics-value">R$ 37.560</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Delta reestruturação</td>
+                  <td class="metrics-value">R$ 0</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Delta pleitos (reconhecimento)</td>
+                  <td class="metrics-value">R$ 37.560</td>
+                </tr>
+              </table>
+
+              <div class="card-section-title">Pleitos de reconhecimento</div>
+              <table class="metrics-table">
+                <tr>
+                  <td class="metrics-label">Líder do pacote</td>
+                  <td class="metrics-value">Amanda Cerqueira Rodrigues</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Qtd. pleitos</td>
+                  <td class="metrics-value">21</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Aumento salarial do pacote</td>
+                  <td class="metrics-value">26%</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Custo mensal dos pleitos</td>
+                  <td class="metrics-value">R$ 37.560</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Farol orçamento</td>
+                  <td class="metrics-value">3,92%</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <div class="card-section-title">Leitura executiva &amp; KPIs sugeridos</div>
+              <ul>
+                <li>Área intensiva em talento criativo e conhecimento de negócio, com o maior volume de pleitos (21) concentrados sob Amanda.</li>
+                <li>Reconhecimento crítico para sustentar consistência de experiência, qualidade de jornadas e diferenciação de PS.</li>
+                <li>KPIs recomendados:
+                  <ul class="kpi-bullets">
+                    <li>NPS/CSAT de jornadas conversacionais.</li>
+                    <li>Taxa de automação efetiva vs contato humano.</li>
+                    <li>Reuso de componentes/conversas e produtividade por designer.</li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 3. Gestão de Valor (QA, Eficiência & Automação) -->
+      <article class="card">
+        <button class="card-header" type="button">
+          <div class="card-title">
             Gestão de Valor (QA, Eficiência de Fluxo &amp; Automação)
             <span class="badge">Qualidade &amp; IA em testes</span>
           </div>
           <div class="delta delta-pos">
-            ≈ + R$ 34.125 / mês
-            <div class="delta-approx">R$ 29.239 reestrut. + ~R$ 4.886 pleitos</div>
+            + R$ 36.690 / mês
+            <div class="delta-approx">≈ R$ 29k reestruturação + R$ 7k pleitos</div>
           </div>
-        </div>
-        <div class="card-grid">
-          <div>
-            <div class="card-section-title">Números-chave</div>
-            <table class="metrics-table">
-              <tr>
-                <td class="metrics-label">Δ reestruturação (sem pleitos)</td>
-                <td class="metrics-value">≈ + R$ 29.239</td>
-              </tr>
-              <tr>
-                <td class="metrics-label">Δ pleitos (QA &amp; Agile, aprox.)</td>
-                <td class="metrics-value">≈ + R$ 4.886</td>
-              </tr>
-              <tr>
-                <td class="metrics-label">Incremento total estimado</td>
-                <td class="metrics-value">≈ + R$ 34.125</td>
-              </tr>
-              <tr>
-                <td class="metrics-label">Fases</td>
-                <td class="metrics-value">3 waves (Nov/25, Jan–Fev/26, Abr/26)</td>
-              </tr>
-              <tr>
-                <td class="metrics-label">Perfil</td>
-                <td class="metrics-value">Coords QA billable + IA/automação não billable</td>
-              </tr>
-            </table>
+          <div class="card-arrow">▾</div>
+        </button>
+        <div class="card-body">
+          <div class="card-grid">
+            <div>
+              <div class="card-section-title">Custo total por especialidade</div>
+              <table class="metrics-table">
+                <tr>
+                  <td class="metrics-label">Delta total de custo mensal</td>
+                  <td class="metrics-value">≈ R$ 36.690</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Delta reestruturação</td>
+                  <td class="metrics-value">≈ R$ 29.239</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Delta pleitos (QA &amp; Agile)</td>
+                  <td class="metrics-value">R$ 7.451</td>
+                </tr>
+              </table>
 
-            <div class="card-section-title">Pleitos de reconhecimento &mdash; QA &amp; Agile</div>
-            <table class="metrics-table">
-              <tr>
-                <td class="metrics-label">Líder do pacote</td>
-                <td class="metrics-value">Andre Morato Alvares Caetano Dutra</td>
-              </tr>
-              <tr>
-                <td class="metrics-label">Qtd. pleitos</td>
-                <td class="metrics-value">3</td>
-              </tr>
-              <tr>
-                <td class="metrics-label">Custo mensal da folha reconhecida</td>
-                <td class="metrics-value">R$ 7.451</td>
-              </tr>
-              <tr>
-                <td class="metrics-label">Δ pleitos estimado</td>
-                <td class="metrics-value">≈ + R$ 4.886</td>
-              </tr>
-              <tr>
-                <td class="metrics-label">Farol orçamento</td>
-                <td class="metrics-value">2,72%</td>
-              </tr>
-            </table>
-          </div>
-          <div>
-            <div class="card-section-title">Leitura executiva &amp; KPIs sugeridos</div>
-            <ul>
-              <li>Investimento direcionado para reduzir custo da não-qualidade e aumentar produtividade de entrega.</li>
-              <li>Automação de testes e IA devem encurtar ciclos de release e diminuir incidentes em produção.</li>
-              <li>Reconhecimento em QA &amp; Agile ajuda a reter especialistas que sustentam essa evolução de maturidade.</li>
-              <li>KPIs recomendados:
-                <ul class="kpi-bullets">
-                  <li>Defeitos em produção e retrabalho por projeto.</li>
-                  <li>Lead time de releases / GMUDs.</li>
-                  <li>Horas de engenharia “liberadas” por automação de testes.</li>
-                </ul>
-              </li>
-            </ul>
+              <div class="card-section-title">Reestruturação &amp; pleitos</div>
+              <table class="metrics-table">
+                <tr>
+                  <td class="metrics-label">Movimentos de reestruturação</td>
+                  <td class="metrics-value">Promoção QA Coord, novo QA Coord, HC IA, Eng. Automação</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Líder dos pleitos QA &amp; Agile</td>
+                  <td class="metrics-value">Andre Morato Alvares Caetano Dutra</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Qtd. pleitos</td>
+                  <td class="metrics-value">3</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Aumento salarial do pacote</td>
+                  <td class="metrics-value">13%</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Farol orçamento</td>
+                  <td class="metrics-value">2,72%</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <div class="card-section-title">Leitura executiva &amp; KPIs sugeridos</div>
+              <ul>
+                <li>Bloco direcionado para reduzir custo da não-qualidade e aumentar produtividade, combinando reestruturação e reconhecimento.</li>
+                <li>IA &amp; automação de testes devem refletir em menos incidentes e ciclos de entrega mais curtos.</li>
+                <li>KPIs recomendados:
+                  <ul class="kpi-bullets">
+                    <li>Defeitos em produção e retrabalho por projeto.</li>
+                    <li>Lead time de releases / GMUDs (antes vs depois da automação).</li>
+                    <li>Horas de engenharia “liberadas” por automação de testes.</li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </article>
 
-      <!-- STI -->
+      <!-- 4. Delivery -->
       <article class="card">
-        <div class="card-header">
+        <button class="card-header" type="button">
           <div class="card-title">
-            <span class="chevron">▾</span>
+            Delivery (Service Delivery)
+            <span class="badge">Liderança de Delivery</span>
+          </div>
+          <div class="delta delta-pos">
+            + R$ 30.890 / mês
+            <div class="delta-approx">≈ R$ 11k reestruturação + R$ 19k pleitos</div>
+          </div>
+          <div class="card-arrow">▾</div>
+        </button>
+        <div class="card-body">
+          <div class="card-grid">
+            <div>
+              <div class="card-section-title">Custo total por especialidade</div>
+              <table class="metrics-table">
+                <tr>
+                  <td class="metrics-label">Delta total de custo mensal</td>
+                  <td class="metrics-value">R$ 30.890</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Delta reestruturação</td>
+                  <td class="metrics-value">R$ 11.361</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Delta pleitos</td>
+                  <td class="metrics-value">R$ 19.529</td>
+                </tr>
+              </table>
+
+              <div class="card-section-title">Reestruturação &amp; pleitos</div>
+              <table class="metrics-table">
+                <tr>
+                  <td class="metrics-label">Movimentos de reestruturação</td>
+                  <td class="metrics-value">1 demissão, 1 contratação, 2 promoções, 1 mérito, 1 Head Service</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Líder dos pleitos</td>
+                  <td class="metrics-value">Andre Fernandes de Oliveira</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Qtd. pleitos</td>
+                  <td class="metrics-value">8</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Aumento salarial do pacote</td>
+                  <td class="metrics-value">18%</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Farol orçamento</td>
+                  <td class="metrics-value">2,15%</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <div class="card-section-title">Leitura executiva &amp; KPIs sugeridos</div>
+              <ul>
+                <li>Combinação de mudança de mix de liderança (Head + DMs) com reconhecimento de perfis críticos na entrega.</li>
+                <li>Importante acompanhar se a camada de liderança está “pagando o investimento” em margem, previsibilidade e satisfação de clientes.</li>
+                <li>KPIs recomendados:
+                  <ul class="kpi-bullets">
+                    <li>Margem de contribuição de projetos de PS.</li>
+                    <li>Forecast de revenue/hours vs realizado (acurácia).</li>
+                    <li>NPS/CSAT de projetos e taxa de rework.</li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 5. STI -->
+      <article class="card">
+        <button class="card-header" type="button">
+          <div class="card-title">
             STI (Lab, Education, Discovery &amp; Efficiency)
             <span class="badge">Education &amp; escalabilidade</span>
           </div>
           <div class="delta delta-pos">
             + R$ 24.058 / mês
-            <div class="delta-approx">Reestruturação (não há pleitos associados aqui)</div>
+            <div class="delta-approx">Reestruturação focada em Educators (sem pleitos adicionais mapeados)</div>
+          </div>
+          <div class="card-arrow">▾</div>
+        </button>
+        <div class="card-body">
+          <div class="card-grid">
+            <div>
+              <div class="card-section-title">Custo total por especialidade</div>
+              <table class="metrics-table">
+                <tr>
+                  <td class="metrics-label">Delta total de custo mensal</td>
+                  <td class="metrics-value">R$ 24.058</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Delta reestruturação</td>
+                  <td class="metrics-value">R$ 24.058</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Delta pleitos</td>
+                  <td class="metrics-value">R$ 0</td>
+                </tr>
+              </table>
+
+              <div class="card-section-title">Números-chave</div>
+              <table class="metrics-table">
+                <tr>
+                  <td class="metrics-label">FTE (antes → depois)</td>
+                  <td class="metrics-value">~14 → ~16 (+2 Educators)</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Mudança estrutural</td>
+                  <td class="metrics-value">+2 Educators / -1 PM produto (realocado)</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Perfil de receita</td>
+                  <td class="metrics-value">Misto billable / partially billable</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <div class="card-section-title">Leitura executiva &amp; KPIs sugeridos</div>
+              <ul>
+                <li>Investimento em Educators aumenta capacidade de escalar treinamento, adoção e outcomes.</li>
+                <li>Impacto esperado em receita de serviços, upsell de plataforma e redução de churn por má adoção.</li>
+                <li>KPIs recomendados:
+                  <ul class="kpi-bullets">
+                    <li>Receita de Education &amp; projetos ligados a STI.</li>
+                    <li>Adoção de funcionalidades pós-treinamento e tempo até primeiro valor (TTFV).</li>
+                    <li>CSAT de treinamentos e impacto em churn/expansion de clientes treinados.</li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-        <div class="card-grid">
-          <div>
-            <div class="card-section-title">Números-chave</div>
-            <table class="metrics-table">
-              <tr>
-                <td class="metrics-label">Δ reestruturação</td>
-                <td class="metrics-value">+ R$ 24.058</td>
-              </tr>
-              <tr>
-                <td class="metrics-label">Δ pleitos</td>
-                <td class="metrics-value">R$ 0 (sem pleitos mapeados)</td>
-              </tr>
-              <tr>
-                <td class="metrics-label">Incremento total estimado</td>
-                <td class="metrics-value">+ R$ 24.058</td>
-              </tr>
-              <tr>
-                <td class="metrics-label">FTE (antes → depois)</td>
-                <td class="metrics-value">~14 → ~16 (Educators)</td>
-              </tr>
-              <tr>
-                <td class="metrics-label">Perfil de receita</td>
-                <td class="metrics-value">Misto billable / partially billable</td>
-              </tr>
-            </table>
+      </article>
+
+      <!-- 6. Dados (D4S) -->
+      <article class="card">
+        <button class="card-header" type="button">
+          <div class="card-title">
+            Dados (D4S / Data for Services)
+            <span class="badge">Estrutura transitória até 2026</span>
           </div>
-          <div>
-            <div class="card-section-title">Leitura executiva &amp; KPIs sugeridos</div>
-            <ul>
-              <li>STI amplia capacidade de educação e discovery, suportando escala de adoção e outcomes da plataforma.</li>
-              <li>Apes
+          <div class="delta delta-pos">
+            + R$ 19.166 / mês
+            <div class="delta-approx">Impacto 100% via pleitos de reconhecimento</div>
+          </div>
+          <div class="card-arrow">▾</div>
+        </button>
+        <div class="card-body">
+          <div class="card-grid">
+            <div>
+              <div class="card-section-title">Custo total por especialidade</div>
+              <table class="metrics-table">
+                <tr>
+                  <td class="metrics-label">Delta total de custo mensal</td>
+                  <td class="metrics-value">R$ 19.166</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Delta reestruturação</td>
+                  <td class="metrics-value">R$ 0</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Delta pleitos</td>
+                  <td class="metrics-value">R$ 19.166</td>
+                </tr>
+              </table>
+
+              <div class="card-section-title">Pleitos de reconhecimento (Dados)</div>
+              <table class="metrics-table">
+                <tr>
+                  <td class="metrics-label">Líder do pacote</td>
+                  <td class="metrics-value">Karina Carneiro Costa</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Qtd. pleitos</td>
+                  <td class="metrics-value">11</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Aumento salarial do pacote</td>
+                  <td class="metrics-value">22%</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Custo mensal dos pleitos</td>
+                  <td class="metrics-value">R$ 19.166</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Farol orçamento</td>
+                  <td class="metrics-value">2,95%</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <div class="card-section-title">Leitura executiva &amp; KPIs sugeridos</div>
+              <ul>
+                <li>Primeira onda sem aumento de quadro, mas com reconhecimento relevante em um pilar estratégico para PS.</li>
+                <li>Importante ancorar futuras expansões de DS e senioridade em valor capturado em serviços e eficiência interna.</li>
+                <li>KPIs recomendados:
+                  <ul class="kpi-bullets">
+                    <li>Receita de serviços/soluções de dados (D4S).</li>
+                    <li>Uso de produtos de dados por squads e impacto em eficiência.</li>
+                    <li>Qualidade e confiança dos dados (incidentes de dados, reprocessamentos).</li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 7. PS Ops -->
+      <article class="card">
+        <button class="card-header" type="button">
+          <div class="card-title">
+            PS Ops (Operações de Professional Services)
+            <span class="badge">Governança &amp; P&amp;L</span>
+          </div>
+          <div class="delta delta-pos">
+            + R$ 12.000 / mês
+            <div class="delta-approx">Reestruturação (FP&amp;A Analyst) sem pleitos adicionais</div>
+          </div>
+          <div class="card-arrow">▾</div>
+        </button>
+        <div class="card-body">
+          <div class="card-grid">
+            <div>
+              <div class="card-section-title">Custo total por especialidade</div>
+              <table class="metrics-table">
+                <tr>
+                  <td class="metrics-label">Delta total de custo mensal</td>
+                  <td class="metrics-value">R$ 12.000</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Delta reestruturação</td>
+                  <td class="metrics-value">R$ 12.000</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Delta pleitos</td>
+                  <td class="metrics-value">R$ 0</td>
+                </tr>
+              </table>
+
+              <div class="card-section-title">Números-chave</div>
+              <table class="metrics-table">
+                <tr>
+                  <td class="metrics-label">Movimento principal</td>
+                  <td class="metrics-value">Contratação FP&amp;A Analyst / demissão de estagiário</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Perfil</td>
+                  <td class="metrics-value">100% não billable (Ops, Program, Process, Data, FP&amp;A)</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Líder dos pleitos</td>
+                  <td class="metrics-value">Vinicius de Souza Bandeira (0 pleitos neste ciclo)</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <div class="card-section-title">Leitura executiva &amp; KPIs sugeridos</div>
+              <ul>
+                <li>Troca custo baixo (estagiário) por alta alavanca (FP&amp;A dedicado em PS), sem aumento adicional via pleitos.</li>
+                <li>PS Ops vira o “motor” de governança de margem, capacidade e pricing de PS.</li>
+                <li>KPIs recomendados:
+                  <ul class="kpi-bullets">
+                    <li>Margem de serviços vs orçamento (GM%).</li>
+                    <li>Acurácia de forecast de receita/HC de PS.</li>
+                    <li>% de deals dentro dos guardrails de margem, subsídio e desconto.</li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 8. Service Design & Consulting -->
+      <article class="card">
+        <button class="card-header" type="button">
+          <div class="card-title">
+            Service Design &amp; Consulting
+            <span class="badge">Pré-vendas global &amp; ofertas consultivas</span>
+          </div>
+          <div class="delta delta-pos">
+            + R$ 8.649 / mês
+            <div class="delta-approx">≈ R$ 6k reestruturação + R$ 2,6k pleitos</div>
+          </div>
+          <div class="card-arrow">▾</div>
+        </button>
+        <div class="card-body">
+          <div class="card-grid">
+            <div>
+              <div class="card-section-title">Custo total por especialidade</div>
+              <table class="metrics-table">
+                <tr>
+                  <td class="metrics-label">Delta total de custo mensal</td>
+                  <td class="metrics-value">R$ 8.649</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Delta reestruturação</td>
+                  <td class="metrics-value">R$ 6.000</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Delta pleitos</td>
+                  <td class="metrics-value">R$ 2.649</td>
+                </tr>
+              </table>
+
+              <div class="card-section-title">Reestruturação &amp; pleitos</div>
+              <table class="metrics-table">
+                <tr>
+                  <td class="metrics-label">Escopo da reestruturação</td>
+                  <td class="metrics-value">Pré-vendas BR/LATAM/EMEA, Service Strategist, migração de Lead</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Líder dos pleitos</td>
+                  <td class="metrics-value">Larissa Ferreira de Jesus</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Qtd. pleitos</td>
+                  <td class="metrics-value">1</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Aumento salarial do pacote</td>
+                  <td class="metrics-value">33%</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Farol orçamento</td>
+                  <td class="metrics-value">5,32%</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <div class="card-section-title">Leitura executiva &amp; KPIs sugeridos</div>
+              <ul>
+                <li>Aumento de custo relativamente pequeno com grande potencial em win rate e margem de projetos.</li>
+                <li>Service Strategist permite ofertas consultivas e modelos de valor/outcome em PS.</li>
+                <li>KPIs recomendados:
+                  <ul class="kpi-bullets">
+                    <li>Win rate de deals com envolvimento de Service Design.</li>
+                    <li>Margem dos projetos desenhados por SD (vs baseline).</li>
+                    <li>Receita de serviços consultivos e NRR de contas atendidas.</li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 9. Vice-Presidência -->
+      <article class="card">
+        <button class="card-header" type="button">
+          <div class="card-title">
+            Vice-Presidência de Professional Services
+            <span class="badge">Liderança executiva</span>
+          </div>
+          <div class="delta delta-pos">
+            + R$ 7.649 / mês
+            <div class="delta-approx">Impacto 100% via reconhecimento de liderança</div>
+          </div>
+          <div class="card-arrow">▾</div>
+        </button>
+        <div class="card-body">
+          <div class="card-grid">
+            <div>
+              <div class="card-section-title">Custo total por especialidade</div>
+              <table class="metrics-table">
+                <tr>
+                  <td class="metrics-label">Delta total de custo mensal</td>
+                  <td class="metrics-value">R$ 7.649</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Delta reestruturação</td>
+                  <td class="metrics-value">R$ 0</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Delta pleitos</td>
+                  <td class="metrics-value">R$ 7.649</td>
+                </tr>
+              </table>
+
+              <div class="card-section-title">Pleitos de reconhecimento</div>
+              <table class="metrics-table">
+                <tr>
+                  <td class="metrics-label">Líder do pacote</td>
+                  <td class="metrics-value">Eduardo Guerreiro Silva</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Qtd. pleitos</td>
+                  <td class="metrics-value">1</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Aumento salarial do pacote</td>
+                  <td class="metrics-value">17%</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Custo mensal dos pleitos</td>
+                  <td class="metrics-value">R$ 7.649</td>
+                </tr>
+                <tr>
+                  <td class="metrics-label">Farol orçamento</td>
+                  <td class="metrics-value">3,29%</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <div class="card-section-title">Leitura executiva &amp; KPIs sugeridos</div>
+              <ul>
+                <li>Reconhecimento focado em liderança executiva, com impacto financeiro controlado.</li>
+                <li>Movimento importante para alinhamento de incentivos com a agenda de transformação de PS.</li>
+                <li>KPIs recomendados:
+                  <ul class="kpi-bullets">
+                    <li>EBITDA / margem de PS em relação às metas corporativas.</li>
+                    <li>Engajamento dos times de PS (eNPS, rotatividade de líderes).</li>
+                    <li>Execução do roadmap de transformação (milestones estratégicos concluídos).</li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </section>
+
+    <footer>
+      <div>
+        <strong>Notas:</strong> valores aproximados, considerando as premissas do planejamento de reestruturação e
+        podendo variar na consolidação final da folha (salários, encargos, benefícios e datas de virada).
+      </div>
+      <div>
+        Este relatório é um resumo executivo. A base detalhada por colaborador, especialidade e wave está
+        consolidada no documento de planejamento e na planilha mestre de <span>Professional Services</span>.
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Torna cada card colapsável ao clicar no cabeçalho
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('.card').forEach(function (card) {
+        const header = card.querySelector('.card-header');
+        const body = card.querySelector('.card-body');
+        if (!header || !body) return;
+
+        header.addEventListener('click', function () {
+          const collapsed = body.classList.toggle('collapsed');
+          card.classList.toggle('collapsed', collapsed);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
