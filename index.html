@@ -210,7 +210,7 @@
       width: 100%;
       display: flex;
       align-items: flex-start;
-      justify-content: space-between;
+      justify-content: flex-start;  /* alinhamento à esquerda */
       gap: 8px;
       margin-bottom: 6px;
       color: inherit;
@@ -229,6 +229,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      flex: 1 1 auto;              /* título ocupa a faixa da esquerda */
     }
 
     .badge {
@@ -250,6 +251,8 @@
       font-size: 0.9rem;
       font-weight: 600;
       text-align: right;
+      margin-left: auto;           /* empurra o bloco de valores para a direita */
+      min-width: 190px;            /* largura para alinhar entre cards */
     }
 
     .delta-pos {
@@ -415,8 +418,8 @@
         <div class="kpi-label">Incremento total estimado de custo mensal (reestruturação + pleitos)</div>
         <div class="kpi-value">≈ R$ 252.663 / mês (≈ 4,5% da folha de R$ 5,6 MM/mês)</div>
         <div class="kpi-caption">
-          Soma do impacto da reestruturação de PS (≈ R$ 158,7k/mês) com os pleitos de reconhecimento (≈ R$ 94k/mês adicionais,
-          desconsiderando o que já está embutido em Engenharia).
+          Soma do impacto da reestruturação de PS (≈ R$ 158,7k/mês) com os pleitos de reconhecimento
+          (≈ R$ 94k/mês em custo mensal dos profissionais reconhecidos em outras áreas, desconsiderando o que já está embutido em Engenharia).
         </div>
         <div class="pill">
           <span></span>
@@ -430,8 +433,7 @@
         <div class="kpi-value">54 pleitos · + R$ 80.749 / mês (≈ 1,4% da folha)</div>
         <div class="kpi-caption">
           Custo total mensal dos profissionais reconhecidos ≈ R$ 123.142 (≈ 2,2% da folha), com farol agregado de 3%.
-          Aproximadamente R$ 29k desse valor já estão considerados no incremento de Engenharia; os ~R$ 94k restantes
-          adicionam custo incremental além da reestruturação de headcount.
+          Aproximadamente R$ 29k desse valor já estão considerados no incremento de Engenharia.
         </div>
       </div>
 
